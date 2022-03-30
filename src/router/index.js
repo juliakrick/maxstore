@@ -1,29 +1,39 @@
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+// import MainPart from '../components/MainPart.vue'
+// import ProductionItem from '../views/ProductionItem.vue'
 
-// Vue.use(VueRouter)
+Vue.use(VueRouter)
 
-// const routes = [
-//   {
-//     path: '/',
-//     name: 'Home',
-//     component: Home
-//   },
-//   {
-//     path: '/about',
-//     name: 'About',
-//     // route level code-splitting
-//     // this generates a separate chunk (about.[hash].js) for this route
-//     // which is lazy-loaded when the route is visited.
-//     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-//   }
-// ]
+const routes = [
+  {
+    path: '/',
+    name: 'Main',
+    component: () => import(/* webpackChunkName: "Main" */ '../components/MainPart.vue') 
+  },
+  {
+    path: '/production',
+    name: 'ProductionItem',
+    component: () => import(/* webpackChunkName: "ProductionItem" */ '../views/ProductionItem.vue') 
+   },
+   {
+    path: '/catalog',
+    name: 'CatalogItem',
+    component: () => import(/* webpackChunkName: "ContactItem" */ '../views/CatalogItem.vue')  
+  },
+    {
+      path: '/contact',
+      name: 'ContactItem',
+      component: () => import(/* webpackChunkName: "ContactItem" */ '../views/ContactItem.vue')  
+    }
 
-// const router = new VueRouter({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes
-// })
 
-// export default router
+  ]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router

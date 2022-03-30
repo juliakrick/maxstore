@@ -1,36 +1,62 @@
 <template>
-
- <v-app>
-     <HeaderItem> </HeaderItem>
-     
+  <v-app>
+    <HeaderItem> </HeaderItem>
     <v-main>
-     
-      <v-container class="pt-5">
-       <MainPart></MainPart>
-        <!-- <router-view class="view"></router-view> -->
+      <v-container>
+        <router-view class="view"></router-view>
       </v-container>
     </v-main>
-
+    <FooterItem></FooterItem>
   </v-app>
-
-  
 </template>
 
 <script>
-import MainPart from './components/MainPart.vue';
-import HeaderItem from './components/HeaderItem.vue';
-
+import FooterItem from "./components/FooterItem.vue";
+import HeaderItem from "./components/HeaderItem.vue";
 
 export default {
-  name: 'App',
-    components: {
-    MainPart,
+  name: "App",
+  components: {
+    FooterItem,
     HeaderItem,
-    
   },
   data: () => ({
-   
-    //
+    PictureData: [
+      {
+        text: "foto №1",
+        href: "../assets/1.jpg",
+      },
+      {
+        text: "foto №2",
+        href: "../assets/2.jpg",
+      },
+      {
+        text: "foto №3",
+        href: "../assets/3.jpg",
+      },
+      {
+        text: "foto №4",
+        href: "../assets/4.jpg",
+      },
+      {
+        text: "foto №5",
+        href: "../assets/5.jpg",
+      },
+      {
+        text: "foto №6",
+        href: "../assets/6.jpg",
+      },
+      {
+        text: "foto №7",
+        href: "../assets/7.jpg",
+      },
+    ],
   }),
 };
 </script>
+
+<style scoped>
+.v-main{
+  padding: 0px !important;
+}
+</style>
