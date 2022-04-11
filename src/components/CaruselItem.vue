@@ -8,11 +8,18 @@
       </v-slide-group>
     </v-sheet>
   </v-container>
+     
+      
 </template>
 
 <script>
+
 export default {
   name: "CaruselItem",
+    components: {
+     
+    },
+   
   data: () => ({
     images: [
       {

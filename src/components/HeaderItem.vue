@@ -18,9 +18,9 @@
             <v-list-item to="/production" link>
               <v-list-item-title>Production</v-list-item-title>
             </v-list-item>
-            <v-list-item to="/List" link>
+            <!-- <v-list-item to="/List" link>
             <v-list-item-title>Catalog</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
             <v-list-item to="/catalog" link>
               <v-list-item-title>Catalog</v-list-item-title>
             </v-list-item>

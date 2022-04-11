@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="80" class="mt-15">
+  <v-footer height="80" class="footer mt-15">
       <v-col
         class="text-center"
         cols="12"
@@ -15,4 +15,6 @@ export default {};
 </script>
 
 <style>
+
+
 </style>
