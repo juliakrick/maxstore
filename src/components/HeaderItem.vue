@@ -28,9 +28,7 @@
               <v-list-item-title>Contacts</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
-        </v-list> 
-
-
+        </v-list>
       </v-navigation-drawer>
       <v-col class="d-flex justify-right align-center">
         <v-app-bar-nav-icon
@@ -56,28 +54,44 @@
       </v-toolbar-items> -->
       <v-spacer></v-spacer>
       <v-row>
+        <v-col>
+          <v-row class="d-none d-lg-block" v-for="(item, i) in items" :key="i">
+            {{ item.phone }}
+          </v-row>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-icon>mdi-basket</v-icon>
+        <v-spacer></v-spacer>
 
-         <v-col>
-        
-        <v-row class="d-none d-lg-block" v-for="(item, i) in items" :key="i">
-          {{ item.phone }}
-        </v-row>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-icon>mdi-basket</v-icon>
-      <v-spacer></v-spacer>
-      <v-icon>mdi-login-variant </v-icon>
-      <v-spacer></v-spacer>
-      </v-row>
      
+
+        <v-btn @click="dialog = !dialog, getDialogState">
+          <v-icon>mdi-login-variant </v-icon>
+        </v-btn>
+       
+
+        <!-- модальное окно -->
+<!-- 
+        <modal-window-item :dialog='dialog'>
+           <AuhtItem></AuhtItem>
+        </modal-window-item> -->
+
+        <!-- модальное окно -->
+        <v-spacer></v-spacer>
+      </v-row>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "HeaderItem",
+  components: {
+  
+  },
   data: () => ({
+    dialog: false,
     drawer: false,
     group: null,
     items: [
@@ -89,6 +103,12 @@ export default {
       },
     ],
   }),
+  methods:{
+    getDialogState(){
+      this.$emit('dialogstate', this.dialog)
+    }
+    
+  }
 };
 </script>
 <style scoped>
@@ -104,5 +124,8 @@ export default {
   -webkit-box-shadow: inset 0 0 6px #424242;
   box-shadow: inset 0 0 6px #424242;
   background-color: #424242;
+}
+.h1{
+  color: red;
 }
 </style>

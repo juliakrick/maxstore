@@ -2,6 +2,9 @@
   <v-app>
     <HeaderItem> </HeaderItem>
     <v-main>
+      <modal-window-item  @dialogstate='setDialogState'>
+           <AuhtItem></AuhtItem>
+        </modal-window-item>
       <v-container>
         <router-view class="view"></router-view>
       </v-container>
@@ -11,16 +14,19 @@
 </template>
 
 <script>
+import AuhtItem from "./components/AuhtItem.vue";
 import FooterItem from "./components/FooterItem.vue";
 import HeaderItem from "./components/HeaderItem.vue";
 
 export default {
   name: "App",
   components: {
+      AuhtItem,
     FooterItem,
     HeaderItem,
   },
   data: () => ({
+    dialog: false,
     PictureData: [
       {
         text: "foto №1",
@@ -52,6 +58,11 @@ export default {
       },
     ],
   }),
+  methods:{
+    setDialogState(dialog){
+      this.dialog = dialog
+    }
+  }
 };
 </script>
 

@@ -8,8 +8,10 @@ import Vuetify from 'vuetify/lib'
 
 
 import ButtonItem from './components/UI/ButtonItem.vue'
+import ModalWindow from './components/UI/ModalWindow.vue'
 
-Vue.component('button-item', ButtonItem)
+Vue.component('button-item', ButtonItem),
+Vue.component('modal-window-item', ModalWindow)
 
 
 Vue.config.productionTip = false
