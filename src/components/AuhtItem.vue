@@ -1,9 +1,9 @@
 <template>
-   <div class="user-from" >
+  <div class="user-from">
     <div class="flex">
       <div class="form-fields">
         <h2>Информация о себе:</h2>
-        <div 
+        <div
           class="form-group"
           v-for="(fieldValue, fieldLabel, index) in formFields"
           :key="index"
@@ -13,17 +13,14 @@
             class="form-control"
             :id="fieldLabel"
             v-model="formFields[fieldLabel]"
-          >
+          />
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
       </div>
       <div class="user-info">
         <h2>Предпросмотр:</h2>
-        <p
-          v-for="(fieldValue, fieldLabel, index) in formFields"
-          :key="index"
-        >
-          {{ `${fieldLabel}: ${fieldValue}`}}
+        <p v-for="(fieldValue, fieldLabel, index) in formFields" :key="index">
+          {{ `${fieldLabel}: ${fieldValue}` }}
         </p>
       </div>
     </div>
@@ -33,13 +30,9 @@
         class="form-control"
         id="additionalField"
         v-model="additionalField"
-      >
+      />
     </div>
-    <button
-      type="button"
-      class="btn btn-success"
-      @click="addNewField"
-    >
+    <button type="button" class="btn btn-success" @click="addNewField">
       Добавить
     </button>
   </div>
@@ -48,27 +41,33 @@
 
 <script>
 export default {
-    name: 'AuhtItem',
-      data() {
+  name: "AuhtItem",
+  components: {},
+
+  close: null,
+
+  data() {
     return {
       formFields: {
-        firstName: '',
-        secondName: '',
-        lastName: ''
+        firstName: "",
+        secondName: "",
+        lastName: "",
       },
-      additionalField: ''
-    }
+      additionalField: "",
+    };
   },
 
-     methods: {
+  methods: {
     addNewField() {
-      this.$set(this.formFields, this.additionalField, '')
-    }
-  }
+      this.$set(this.formFields, this.additionalField, "");
+    },
 
-}
+    sendstateDialog() {
+      this.$emit("closeDialog", false);
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

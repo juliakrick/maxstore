@@ -1,10 +1,10 @@
 <template>
   <v-app>
     <HeaderItem> </HeaderItem>
+    <!-- <modal-window-item v-if="dialog" @dialogstate="setDialogState">
+      <AuhtItem></AuhtItem>
+    </modal-window-item> -->
     <v-main>
-      <modal-window-item  @dialogstate='setDialogState'>
-           <AuhtItem></AuhtItem>
-        </modal-window-item>
       <v-container>
         <router-view class="view"></router-view>
       </v-container>
@@ -14,19 +14,19 @@
 </template>
 
 <script>
-import AuhtItem from "./components/AuhtItem.vue";
+// import AuhtItem from "./components/AuhtItem.vue";
 import FooterItem from "./components/FooterItem.vue";
 import HeaderItem from "./components/HeaderItem.vue";
 
 export default {
   name: "App",
   components: {
-      AuhtItem,
+    // AuhtItem,
     FooterItem,
     HeaderItem,
   },
   data: () => ({
-    dialog: false,
+    dialog: true,
     PictureData: [
       {
         text: "foto №1",
@@ -58,16 +58,17 @@ export default {
       },
     ],
   }),
-  methods:{
-    setDialogState(dialog){
-      this.dialog = dialog
-    }
-  }
+  methods: {
+    setDialogState(data) {
+      console.log("dialog");
+      this.dialog = data;
+    },
+  },
 };
 </script>
 
 <style scoped>
-.v-main{
+.v-main {
   padding: 0px !important;
 }
 </style>

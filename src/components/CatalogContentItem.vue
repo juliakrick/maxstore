@@ -14,7 +14,7 @@
     <v-row class="d-flex flex-wrap justify-space-around ma-5">
       <!-- <v-col> -->
       <!-- <v-col md="4" xl="4" ma="10" class="d-flex flex-wrap ma-5 pa-5">  -->
-      <v-card v-for="(item, i) in GET_CATALOG_TO_STATE" :key="i"  class="mb-5">
+      <v-card v-for="(item, id) in GET_CATALOG_TO_STATE" :key="id" class="mb-5">
         <v-img :src="item.src"></v-img>
         <v-card-title>{{ item.title }}</v-card-title>
         <v-card-text>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "CatalogContentItem",
 
@@ -160,27 +160,16 @@ export default {
       },
     ],
   }),
-  computed:{
-    ...mapGetters(["GET_CATALOG_TO_STATE"])
-
+  computed: {
+    ...mapGetters(["GET_CATALOG_TO_STATE"]),
   },
 
-  methods:{
-    ...mapActions(["GET_PRODUCTS_FROM_API"])
-      
+  methods: {
+    ...mapActions(["GET_PRODUCTS_FROM_API"]),
   },
-  mounted(){
+  mounted() {
     this.GET_PRODUCTS_FROM_API()
-    .then((response)=>{
-      if(response){
-        console.log('data arrived!')
-      }
-    }
-    )
-  }
-
-
-
+  },
 };
 </script>
 

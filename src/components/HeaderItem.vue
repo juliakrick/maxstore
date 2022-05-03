@@ -63,32 +63,36 @@
         <v-icon>mdi-basket</v-icon>
         <v-spacer></v-spacer>
 
-     
-
-        <v-btn @click="dialog = !dialog, getDialogState">
+        <v-btn @click="dialog = !dialog">
           <v-icon>mdi-login-variant </v-icon>
         </v-btn>
-       
 
-        <!-- модальное окно -->
-<!-- 
-        <modal-window-item :dialog='dialog'>
-           <AuhtItem></AuhtItem>
-        </modal-window-item> -->
-
-        <!-- модальное окно -->
         <v-spacer></v-spacer>
       </v-row>
+      <!-- модальное окно -->
+
+      <modal-window-item
+        v-if="dialog"
+        :dialog="dialog"
+        @hDialog="getDialogStateSpace()"
+        @cDialog="getDialogStateButton()"
+      >
+        <AuhtItem
+          @closeDialog="dialog=false"
+        ></AuhtItem>
+      </modal-window-item>
+
+      <!-- модальное окно -->
     </v-app-bar>
   </div>
 </template>
 
 <script>
-
+import AuhtItem from "./AuhtItem.vue";
 export default {
   name: "HeaderItem",
   components: {
-  
+    AuhtItem,
   },
   data: () => ({
     dialog: false,
@@ -103,12 +107,16 @@ export default {
       },
     ],
   }),
-  methods:{
-    getDialogState(){
-      this.$emit('dialogstate', this.dialog)
-    }
-    
-  }
+  methods: {
+    getDialogStateSpace(state) {
+      
+      this.dialog = state;
+    },
+    getDialogStateButton(state) {
+      console.log("statetttttt");
+      this.dialog = state;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -125,7 +133,7 @@ export default {
   box-shadow: inset 0 0 6px #424242;
   background-color: #424242;
 }
-.h1{
+.h1 {
   color: red;
 }
 </style>

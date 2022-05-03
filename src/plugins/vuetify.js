@@ -4,6 +4,11 @@ import colors from 'vuetify/lib/util/colors'
 import 'vuetify/dist/vuetify.min.css';
 
 
+
+
+
+
+
 Vue.use(Vuetify);
 
 export default new Vuetify({
@@ -17,4 +22,5 @@ export default new Vuetify({
           },
         },
       },
+     
 });
