@@ -14,7 +14,7 @@
     <v-row class="d-flex flex-wrap justify-space-around ma-5">
       <!-- <v-col> -->
       <!-- <v-col md="4" xl="4" ma="10" class="d-flex flex-wrap ma-5 pa-5">  -->
-      <v-card v-for="(item, id) in GET_CATALOG_TO_STATE" :key="id" class="mb-5">
+      <v-card v-for="(item, id) in getCatalog" :key="id" class="mb-5">
         <v-img :src="item.src"></v-img>
         <v-card-title>{{ item.title }}</v-card-title>
         <v-card-text>
@@ -161,13 +161,17 @@ export default {
     ],
   }),
   computed: {
-    ...mapGetters(["GET_CATALOG_TO_STATE"]),
+    ...mapGetters('Catalog', ["GET_CATALOG_TO_STATE"]),
+
+    getCatalog(){
+      return this.GET_CATALOG_TO_STATE()
+    }
   },
 
   methods: {
-    ...mapActions(["GET_PRODUCTS_FROM_API"]),
+    ...mapActions('Catalog', ["GET_PRODUCTS_FROM_API"]),
   },
-  mounted() {
+  async mounted() {
     this.GET_PRODUCTS_FROM_API()
   },
 };
