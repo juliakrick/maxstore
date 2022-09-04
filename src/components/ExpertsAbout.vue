@@ -6,8 +6,8 @@
     <v-row class="d-flex justify-center">
       <v-col md="6">
         <v-card>
-          <video autoplay="autoplay" controls width="100%" loop muted>
-            <source src="https://youtu.be/EgnNsNeLY9w" />
+          <video autoplay="autoplay" controls width="100%" height="100%" loop muted>
+            <source src="../assets/video/00208_metro_cop_punching_side_-_wwwcutestockfootagecom (Original).mp4" />
           </video>
           <v-card-title>
             <h2 class="black--text">О компании Максстор</h2>
@@ -24,7 +24,7 @@
             loop
             muted
           >
-            <source src="https://youtu.be/EgnNsNeLY9w" />
+            <source src="../assets/video/04874_flight_over_cows_in_meadow_1_wwwcutestockfootagecom (Original).mp4" />
           </video>
           <v-card-title>
             <h2 class="black--text">О набивных стеллажах Максстор</h2>

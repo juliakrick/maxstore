@@ -18,7 +18,7 @@
             loop
             muted
           >
-            <source src="https://youtu.be/EgnNsNeLY9w" />
+            <source src="../assets/video/vide0_1.mp4" />
           </video>
           <!-- </v-card> -->
         </v-col>

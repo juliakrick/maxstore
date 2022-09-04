@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <HeaderItem> </HeaderItem>
-    <!-- <modal-window-item v-if="dialog" @dialogstate="setDialogState">
-      <AuhtItem></AuhtItem>
-    </modal-window-item> -->
+    <!-- <transition name="fade">
+      <modal-window-item :dialog="dialog"> </modal-window-item>
+    </transition> -->
     <v-main>
-      <v-container>
+      <v-container class="mt-10">
         <router-view class="view"></router-view>
       </v-container>
     </v-main>
@@ -26,7 +26,7 @@ export default {
     HeaderItem,
   },
   data: () => ({
-    dialog: true,
+    // dialog: false,
     PictureData: [
       {
         text: "foto №1",
@@ -58,17 +58,42 @@ export default {
       },
     ],
   }),
-  methods: {
-    setDialogState(data) {
-      console.log("dialog");
-      this.dialog = data;
-    },
-  },
+  // methods: {
+  //   setDialogState(data) {
+  //     console.log("dialog");
+  //     this.dialog = data;
+  //   },
+  // },
+
+  // mounted() {
+  //   this.$modal.EventBus.$on("shown", () => {
+  //     this.dialog = true;
+  //   });
+  //   this.$modal.EventBus.$on("hide", () => {
+  //     this.dialog = false;
+  //   });
+  // },
+
+  // beforeDestroy() {
+  //   this.$modal.EventBus.$off("shown", () => {
+  //     this.dialog = true;
+  //   });
+  //   this.$modal.EventBus.$off("hide", () => {
+  //     this.dialog = false;
+  //   });
+  // },
 };
 </script>
 
 <style scoped>
 .v-main {
   padding: 0px !important;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>

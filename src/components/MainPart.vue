@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p=100">
     <NavBar> </NavBar>
     <HeaderContent> </HeaderContent>
     <HeaderFooter> </HeaderFooter>

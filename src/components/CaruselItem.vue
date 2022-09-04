@@ -1,38 +1,67 @@
 <template>
-  <v-container class="mb-7">
-    <v-sheet class="mx-auto" max-width="700">
-      <v-slide-group multiple show-arrows>
-        <v-slide-item v-for="(n, i) in images" :key="i">
-          <v-img :src="n.src" width="200" class="ma-2" />
-        </v-slide-item>
-      </v-slide-group>
-    </v-sheet>
-  </v-container>
+
+  <div class="d-flex justify-center flex-column py-10 carusel">
+   
+   <v-row>
+     <carousel-3d
+      :autoplay="true"
+      :autoplay-timeout="2400"
      
-      
+      :height="237"
+      :count="7"
+     :display="7"
+    >
+      <slide v-for="(foto, i) in images" :index="i" :key="i">
+        <figure>
+          <v-img :src="foto.src"></v-img>
+        </figure>
+      </slide>
+
+    </carousel-3d>
+   </v-row>
+   
+  </div>
 </template>
 
 <script>
+import { Carousel3d, Slide } from "vue-carousel-3d";
 
 export default {
   name: "CaruselItem",
-    components: {
-     
-    },
-   
+  components: {
+    Carousel3d,
+    Slide,
+  },
+
   data: () => ({
     images: [
       {
         text: "foto №4",
-        src: require("../assets/five.jpg"),
+        src: require("../assets/one.jpg"),
       },
       {
-        text: "foto №6",
-        src: require("../assets/five.jpg"),
+        text: "foto №7",
+        src: require("../assets/two.jpg"),
+      },
+      {
+        text: "foto №7",
+        src: require("../assets/three.jpg"),
+      },
+      {
+        text: "foto №7",
+        src: require("../assets/four.jpg"),
       },
       {
         text: "foto №7",
         src: require("../assets/five.jpg"),
+      },
+      {
+        text: "foto №7",
+        src: require("../assets/six.jpg"),
+      },
+       {
+        text: "foto №7",
+        src: require("../assets/seven.png"),
       },
     ],
   }),
@@ -40,10 +69,16 @@ export default {
 };
 </script>
 <style scoped>
-img {
-  max-width: 100%;
+.carusel{
+  width: 100%;
 }
-
+/* img {
+  max-width: 100%;
+} */
+/* .carousel-3d-slide {
+  height: auto !important;
+  background-color: rgba(0, 0, 0, 0.25) !important;
+} */
 /* .carusel_item {
   position: relative;
 }

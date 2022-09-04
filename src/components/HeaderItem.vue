@@ -46,13 +46,14 @@
         ></v-img>
         <!-- </v-app-bar-nav-icon> -->
       </v-col>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
+      <v-col v-show="nikename">Добро пожаловать! {{ nikename }}</v-col>
       <!-- <v-toolbar-items class="d-none d-md-block">
         <v-btn to="/" link>Home</v-btn>
         <v-btn to="/catalog" link>Catalog</v-btn>
         <v-btn to="/contact" link>Contacts</v-btn>
       </v-toolbar-items> -->
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
       <v-row>
         <v-col>
           <v-row class="d-none d-lg-block" v-for="(item, i) in items" :key="i">
@@ -60,11 +61,18 @@
           </v-row>
         </v-col>
         <v-spacer></v-spacer>
-        <v-icon>mdi-basket</v-icon>
+        <v-btn to="/busket" link>
+          <v-icon>mdi-basket</v-icon>
+        </v-btn>
+
         <v-spacer></v-spacer>
 
-        <v-btn @click="dialog = !dialog">
-          <v-icon>mdi-login-variant </v-icon>
+        <v-btn @click="dialog = !dialog, changeLog">
+          <span>{{ changeButtonText ? "Logout" : "Login" }}</span>
+          <!-- <v-icon>mdi-login-variant </v-icon> -->
+          <v-icon>{{
+            changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
+          }}</v-icon>
         </v-btn>
 
         <v-spacer></v-spacer>
@@ -77,27 +85,34 @@
         @hDialog="getDialogStateSpace()"
         @cDialog="getDialogStateButton()"
       >
-        <AuhtItem
-          @closeDialog="dialog=false"
-        ></AuhtItem>
       </modal-window-item>
+
+      <!-- <AuhtItem @closeDialog="dialog = false"></AuhtItem>  -->
 
       <!-- модальное окно -->
     </v-app-bar>
   </div>
 </template>
 
+
 <script>
-import AuhtItem from "./AuhtItem.vue";
+import { bus } from "../main";
+import { mapGetters } from "vuex";
+// import AuhtItem from "./AuhtItem.vue";
 export default {
   name: "HeaderItem",
   components: {
-    AuhtItem,
+    // AuhtItem,
   },
+
   data: () => ({
+    changeButtonText: false,
+    statesText: "Login",
+    status: false,
     dialog: false,
     drawer: false,
     group: null,
+    nikename: "",
     items: [
       {
         phone: "8800-495-67-38",
@@ -107,15 +122,51 @@ export default {
       },
     ],
   }),
+
+  computed: {
+    ...mapGetters("Auth", ["GET_STATUS"]),
+  },
+
   methods: {
+    changeLog(){
+      if(this.GET_STATUS() == 'success'){
+         console.log('success')
+      }
+
+    },
     getDialogStateSpace(state) {
-      
       this.dialog = state;
     },
     getDialogStateButton(state) {
       console.log("statetttttt");
       this.dialog = state;
     },
+  },
+
+  created() {
+    bus.$on("closemodfromauth", () => {
+      console.log("УРА");
+      this.dialog = false;
+    });
+    bus.$on("send_nikename", (sendedName) => {
+      this.nikename = sendedName;
+    }),
+      bus.$on("openFromSendCatalog", (status) => {
+        this.dialog = status;
+      }),
+      bus.$on("changeButtonText", (textstatus) => {
+        this.changeButtonText = textstatus;
+      });
+  },
+
+  beforeDestroy() {
+    bus.$off("closemodfromauth", () => {
+      this.dialog = false;
+    });
+
+    bus.$off("openFromSendCatalog", (status) => {
+      this.dialog = status;
+    });
   },
 };
 </script>
