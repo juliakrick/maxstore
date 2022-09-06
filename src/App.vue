@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <HeaderItem> </HeaderItem>
+    <!-- <transition name="fade">
+      <modal-window-item :dialog="dialog"> </modal-window-item>
+    </transition> -->
     <v-main>
-      <modal-window-item  @dialogstate='setDialogState'>
-           <AuhtItem></AuhtItem>
-        </modal-window-item>
-      <v-container>
+      <v-container class="mt-10">
         <router-view class="view"></router-view>
       </v-container>
     </v-main>
@@ -14,19 +14,19 @@
 </template>
 
 <script>
-import AuhtItem from "./components/AuhtItem.vue";
+// import AuhtItem from "./components/AuhtItem.vue";
 import FooterItem from "./components/FooterItem.vue";
 import HeaderItem from "./components/HeaderItem.vue";
 
 export default {
   name: "App",
   components: {
-      AuhtItem,
+    // AuhtItem,
     FooterItem,
     HeaderItem,
   },
   data: () => ({
-    dialog: false,
+    // dialog: false,
     PictureData: [
       {
         text: "foto №1",
@@ -58,16 +58,42 @@ export default {
       },
     ],
   }),
-  methods:{
-    setDialogState(dialog){
-      this.dialog = dialog
-    }
-  }
+  // methods: {
+  //   setDialogState(data) {
+  //     console.log("dialog");
+  //     this.dialog = data;
+  //   },
+  // },
+
+  // mounted() {
+  //   this.$modal.EventBus.$on("shown", () => {
+  //     this.dialog = true;
+  //   });
+  //   this.$modal.EventBus.$on("hide", () => {
+  //     this.dialog = false;
+  //   });
+  // },
+
+  // beforeDestroy() {
+  //   this.$modal.EventBus.$off("shown", () => {
+  //     this.dialog = true;
+  //   });
+  //   this.$modal.EventBus.$off("hide", () => {
+  //     this.dialog = false;
+  //   });
+  // },
 };
 </script>
 
 <style scoped>
-.v-main{
+.v-main {
   padding: 0px !important;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>

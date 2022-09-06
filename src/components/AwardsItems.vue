@@ -15,7 +15,7 @@
 
     <v-row class="my-10">
       <v-col v-for="(item, i) in images" :key="i">
-        <v-img :src="item.src"></v-img>
+        <v-img :src="item.src" class="awards__image"></v-img>
       </v-col>
     </v-row>
   </div>
@@ -66,6 +66,14 @@ export default {
   font-family: "Rubik", sans-serif;
   font-weight: 700;
   font-size: 22px;
+}
+
+.awards__image:hover{
+    -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+  -webkit-transform: scale(1.02) !important;
+          transform: scale(1.02) !important;
+
 }
 
 @media screen and (max-width: 960px) {

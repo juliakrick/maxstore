@@ -21,11 +21,33 @@ const routes = [
     name: 'CatalogItem',
     component: () => import(/* webpackChunkName: "ContactItem" */ '../views/CatalogItem.vue')  
   },
+  {
+    path: '/catalog/:id',
+    props: true,
+    name: 'ProductOfCatalogItem',
+    component: () => import(/* webpackChunkName: "ProductOfCatalogItem" */ '../views/ProductOfCatalogItem.vue')  
+  },
     {
       path: '/contact',
       name: 'ContactItem',
       component: () => import(/* webpackChunkName: "ContactItem" */ '../views/ContactItem.vue')  
-    }
+    },
+    // {
+    //   path: '/registration',
+    //   name: 'RedistrationItem',
+    //   component: () => import(/* webpackChunkName: "RedistrationItem" */ '../views/RedistrationItem.vue')  
+    // },
+    
+    {
+      path: '/busket',
+      name: 'BusketItem',
+      component: () => import(/* webpackChunkName: "BusketItem" */ '../views/BusketItem.vue')  
+    },
+    {
+      path: '/calculate',
+      name: 'Calculate',
+      component: () => import(/* webpackChunkName: "CalculationsDataItem" */ '../views/CalculationsDataItems.vue')  
+    },
 
 
   ]

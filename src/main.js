@@ -7,6 +7,16 @@ import Vuetify from 'vuetify/lib'
 
 
 
+
+
+// import Vuelidate from 'vuelidate'
+
+// Vue.use(Axios)
+
+export const bus = new Vue()
+
+
+
 import ButtonItem from './components/UI/ButtonItem.vue'
 import ModalWindow from './components/UI/ModalWindow.vue'
 
@@ -19,7 +29,7 @@ Vue.config.productionTip = false
 // Vue.use(Vuetify, )
 export default new Vuetify({
   icons: {
-    iconfont: 'fa4'
+    iconfont: 'fa4' || 'material-icons' || 'mdi' || 'mdiSvg' || 'md'
   },
 })
 

@@ -1,3 +1,4 @@
+
 <template>
   <v-row class="catalog">
     <v-row
@@ -10,13 +11,33 @@
         Изготавливаем металлические стеллажи с 1998 года
       </h4>
     </v-row>
+    <v-row align="center">
+      <v-col class="d-flex" cols="12" sm="6">
+        <v-select
+          v-model="newsType"
+          @change="changeType()"
+          :items="filters"
+          label="search"
+          outlined
+        ></v-select>
+      </v-col>
+    </v-row>
 
-    <v-row class="d-flex flex-wrap justify-space-around ma-5">
+    <v-row
+      id="infinite-list"
+      class="d-flex flex-wrap justify-space-around ma-5"
+    >
+      <!-- <v-row>
+       
+      </v-row> -->
       <!-- <v-col> -->
       <!-- <v-col md="4" xl="4" ma="10" class="d-flex flex-wrap ma-5 pa-5">  -->
-      <v-card v-for="(item, i) in GET_CATALOG_TO_STATE" :key="i"  class="mb-5">
+      <v-card v-for="item in catalog" :key="item.id" class="mb-5">
         <v-img :src="item.src"></v-img>
-        <v-card-title>{{ item.title }}</v-card-title>
+        <v-card-title @click="getVuewItem(item, $event)">
+          <router-link to="/catalog/:id"> {{ item.title }}</router-link>
+        </v-card-title>
+
         <v-card-text>
           <p>{{ item.description }}</p>
           <b>{{ item.parametrs.width }}</b>
@@ -27,164 +48,107 @@
           <p>{{ item.price }}</p>
         </v-card-text>
       </v-card>
+      <infinite-loading @infinite="searchMore"></infinite-loading>
       <!-- </v-col> -->
     </v-row>
     <!-- </v-col> -->
+    <!-- <pagination-item ></pagination-item> -->
   </v-row>
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import InfiniteLoading from "vue-infinite-loading";
+import { bus } from "../main";
+// import PaginationItem from "../components/PaginationItem.vue";
+import { mapActions, mapGetters, mapState } from "vuex";
+// let urlCatalog = 'https://03f0ce2f-1a05-4a2d-a628-8fdaef600ef1.mock.pstmn.io/products'
 export default {
   name: "CatalogContentItem",
-
-  data: () => ({
-    catalogData: [
-      {
-        src: require("../assets/catalog/one.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { width: "Ширина, мм : до 5 000" },
-          { height: ":Высота, мм:до 13 500" },
-          { depth: "Глубина, мм:до 2 500" },
-          { tier: "Ярус, кг:до 4 500" },
-          { section: "Секция, кг:до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/two.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/three.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/four.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/five.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/sixe.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-
-      {
-        src: require("../assets/catalog/seven.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/eight.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-      {
-        src: require("../assets/catalog/nine.jpg"),
-        title: "Фронтальные стеллажи",
-        description: '"Сталь", "СуперЦинк" и "НовыйЦинк"',
-        parametrs: [
-          { "Ширина, мм": "до 5 000" },
-          { "Высота, мм": "до 13 500" },
-          { "Глубина, мм": "до 2 500" },
-          { "Ярус, кг": "до 4 500" },
-          { "Секция, кг": "до 25 000" },
-        ],
-        price: "Стоимость по запросу",
-      },
-    ],
-  }),
-  computed:{
-    ...mapGetters(["GET_CATALOG_TO_STATE"])
-
+  components: {
+    // PaginationItem,
+    InfiniteLoading,
   },
 
-  methods:{
-    ...mapActions(["GET_PRODUCTS_FROM_API"])
-      
-  },
-  mounted(){
-    this.GET_PRODUCTS_FROM_API()
-    .then((response)=>{
-      if(response){
-        console.log('data arrived!')
-      }
-    }
-    )
+  data: () => {
+    return {
+    prodVuewItem: {},
+    id: null,
+
+    newsType: "",
   }
+  },
 
+  computed: {
+    ...mapGetters("Catalog", ["GET_CATALOG_TO_STATE", "GET_PRODUCTS_ID"]),
+    ...mapState({
+      catalog: (state) => state.Catalog.catalog,
+      filters: (state) => state.Catalog.filterItems,
+    }),
+  },
 
+  methods: {
+    ...mapActions("Catalog", ["getActions", "getFilterCatalog"]),
+
+    searchMore($state) {
+      console.log("$state", $state);
+      this.getActions()
+        .then((loadState) => {
+          console.log("loadState", loadState);
+          if (loadState) {
+            // this.page += 1;
+            // console.log("this.page", this.page);
+            // this.list.push(...loadState.data);
+            // console.log("this.list", this.list);
+            console.log("loaded");
+            $state.loaded();
+          } else {
+            console.log("complete");
+            $state.complete();
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            console.log("error", error);
+            //todo handling of error
+            $state.error();
+          } else {
+            console.log("error2");
+            //todo handling of error
+            $state.error();
+          }
+        });
+    },
+
+    getVuewItem(item, event) {
+      event.preventDefault();
+      this.id = item.id;
+      this.prodVuewItem = this.GET_PRODUCTS_ID(this.id);
+      bus.$emit("getproductid", this.prodVuewItem);
+    },
+
+    changeType() {
+      console.log('ньютайп',this.newsType);
+      
+      this.getActions(this.newsType)
+     
+    },
+  },
+  mounted() {
+    this.getFilterCatalog();
+    
+  },
+
+//   beforeDestroy: function() {
+//  отключить эвент басс
+// }
 
 };
 </script>
 
 <style scoped>
+.catalog {
+  padding-top: 65px;
+}
 .catalog__title {
   font-family: "Rubik", sans-serif;
   font-weight: 700;

@@ -5,12 +5,12 @@
     </v-row>
     <v-row>
       <v-col v-for="(item, i) in ExibitionData" :key="i" class="d-flex justify-space-between">
-        <v-img :src="item.src" width="350" height="250"></v-img>
+        <v-img :src="item.src" width="350" height="250" alt="exibition" class="image"></v-img>
       </v-col>
     </v-row>
     <v-row >
       <v-col v-for="(item, i) in ExibitionData2" :key="i" class="d-flex justify-space-between">
-        <v-img :src="item.href" width="150" height="150"></v-img>
+        <v-img :src="item.href" width="150" height="150" alt="exibition" class="image"></v-img>
       </v-col>
     </v-row>
   </v-row>
@@ -66,4 +66,13 @@ h1 {
   font-weight: 700;
   font-size: 22px;
 }
+
+.image:hover {
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+  -webkit-transform: scale(1.02) !important;
+          transform: scale(1.02) !important;
+}
+
+
 </style>

@@ -13,19 +13,19 @@
         <v-list dense nav>
           <v-list-item-group v-model="group" active-class="text--acent-4">
             <v-list-item to="/" link>
-              <v-list-item-title>Home</v-list-item-title>
+              <v-list-item-title>Главная</v-list-item-title>
             </v-list-item>
             <v-list-item to="/production" link>
-              <v-list-item-title>Production</v-list-item-title>
+              <v-list-item-title>О продукции</v-list-item-title>
             </v-list-item>
             <!-- <v-list-item to="/List" link>
             <v-list-item-title>Catalog</v-list-item-title>
           </v-list-item> -->
             <v-list-item to="/catalog" link>
-              <v-list-item-title>Catalog</v-list-item-title>
+              <v-list-item-title>Каталог</v-list-item-title>
             </v-list-item>
             <v-list-item to="/contact" link>
-              <v-list-item-title>Contacts</v-list-item-title>
+              <v-list-item-title>Контакты</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -46,72 +46,136 @@
         ></v-img>
         <!-- </v-app-bar-nav-icon> -->
       </v-col>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
+      <v-col v-show="nikename">Добро пожаловать! {{ nikename }}</v-col>
       <!-- <v-toolbar-items class="d-none d-md-block">
         <v-btn to="/" link>Home</v-btn>
         <v-btn to="/catalog" link>Catalog</v-btn>
         <v-btn to="/contact" link>Contacts</v-btn>
       </v-toolbar-items> -->
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
       <v-row>
         <v-col>
-          <v-row class="d-none d-lg-block" v-for="(item, i) in items" :key="i">
-            {{ item.phone }}
+          <v-row class="d-none d-lg-block" v-for="(value, id) in items" :key="id">
+            <p><a class="contact-ref" :href="getContact(value) ">{{ value.contactInfo }}</a></p>
           </v-row>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-icon>mdi-basket</v-icon>
-        <v-spacer></v-spacer>
+        <!-- <v-spacer></v-spacer> -->
 
-     
-
-        <v-btn @click="dialog = !dialog, getDialogState">
-          <v-icon>mdi-login-variant </v-icon>
-        </v-btn>
-       
-
-        <!-- модальное окно -->
-<!-- 
-        <modal-window-item :dialog='dialog'>
-           <AuhtItem></AuhtItem>
-        </modal-window-item> -->
-
-        <!-- модальное окно -->
-        <v-spacer></v-spacer>
+        <v-col>
+          <v-btn @click="dialog = !dialog, changeLog">
+            <span>{{ changeButtonText ? "Выйти" : "Войти" }}</span>
+            <!-- <v-icon>mdi-login-variant </v-icon> -->
+            <v-icon>{{
+              changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
+            }}</v-icon>
+          </v-btn>
+          <v-btn to="/busket" link>
+            <v-icon>mdi-basket</v-icon>
+          </v-btn>
+        </v-col>
+        <!-- <v-spacer></v-spacer> -->
       </v-row>
+      <!-- модальное окно -->
+
+      <modal-window-item
+        v-if="dialog"
+        :dialog="dialog"
+        @hDialog="getDialogStateSpace()"
+        @cDialog="getDialogStateButton()"
+      >
+      </modal-window-item>
+
+      <!-- <AuhtItem @closeDialog="dialog = false"></AuhtItem>  -->
+
+      <!-- модальное окно -->
     </v-app-bar>
   </div>
 </template>
 
-<script>
 
+<script>
+import { bus } from "../main";
+import { mapGetters } from "vuex";
+// import AuhtItem from "./AuhtItem.vue";
 export default {
   name: "HeaderItem",
   components: {
-  
+    // AuhtItem,
   },
+
   data: () => ({
+    changeButtonText: false,
+    statesText: "Login",
+    status: false,
     dialog: false,
     drawer: false,
     group: null,
+    nikename: "",
     items: [
-      {
-        phone: "8800-495-67-38",
-      },
-      {
-        phone: "8800-495-99-38",
-      },
-    ],
+        {contactType: "tel", contactInfo: "+7 (925) 201-88-47"},
+        {contactType: "mailto", contactInfo: "subbotinpu@gmail.com"},
+      ],
   }),
-  methods:{
-    getDialogState(){
-      this.$emit('dialogstate', this.dialog)
-    }
-    
-  }
+
+  computed: {
+    ...mapGetters("Auth", ["GET_STATUS"]),
+  },
+
+  methods: {
+    changeLog(){
+      if(this.GET_STATUS() == 'success'){
+         console.log('success')
+      }
+
+    },
+    getDialogStateSpace(state) {
+      this.dialog = state;
+    },
+    getDialogStateButton(state) {
+      console.log("statetttttt");
+      this.dialog = state;
+    },
+    getContact(contact) {
+      return `${contact.contactType}:${contact.contactInfo}`;
+    },
+  },
+
+  created() {
+    bus.$on("closemodfromauth", () => {
+      console.log("УРА");
+      this.dialog = false;
+    });
+    bus.$on("send_nikename", (sendedName) => {
+      this.nikename = sendedName;
+    }),
+      bus.$on("openFromSendCatalog", (status) => {
+        this.dialog = status;
+      }),
+      bus.$on("changeButtonText", (textstatus) => {
+        this.changeButtonText = textstatus;
+      });
+  },
+
+  beforeDestroy() {
+    bus.$off("closemodfromauth", () => {
+      this.dialog = false;
+    });
+
+    bus.$off("openFromSendCatalog", (status) => {
+      this.dialog = status;
+    });
+  },
 };
 </script>
 <style scoped>
+.contact-ref{
+  color: black;
+  text-decoration: none;
+}
+.contact-ref:hover{
+  border-bottom: 1px dashed black;
+}
 .drawer__content::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #5d5d5d;
   box-shadow: inset 0 0 6px #5d5d5d;
@@ -125,7 +189,7 @@ export default {
   box-shadow: inset 0 0 6px #424242;
   background-color: #424242;
 }
-.h1{
+.h1 {
   color: red;
 }
 </style>
