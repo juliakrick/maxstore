@@ -29,7 +29,7 @@ export default {
   name: "modal-window-item",
   components: {
     "auth-item": () => import("../AuhtItem.vue"),
-    "redistration-item": () => import("../../views/RedistrationItem.vue"),
+    "redistration-item": () => import("../../views/RegistrationItem.vue"),
     WindowClose,
   },
   data() {
@@ -37,9 +37,9 @@ export default {
       // current: "auth-item",
       dates: {
         component: "auth-item",
-        title: "LOGIN",
-        text: "нет аккаунта?",
-        buttontext: "REGISTRATION",
+        title: "Вход",
+        text: "Ещё не зарегистрированы?",
+        buttontext: "Регистрация",
       },
     };
   },
@@ -59,13 +59,13 @@ export default {
     changcurrent() {
       this.dates["component"] === "auth-item"
         ? ((this.dates["component"] = "redistration-item"),
-          (this.dates["title"] = "registration"),
-          (this.dates["text"] = "есть аккаунт?"),
-          (this.dates["buttontext"] = "войти"))
+          (this.dates["title"] = "Регистрация"),
+          (this.dates["text"] = "Уже есть аккаунт?"),
+          (this.dates["buttontext"] = "Войти"))
         : ((this.dates["component"] = "auth-item"),
-          (this.dates["title"] = "login"),
-          (this.dates["text"] = "нет аккаунта?"),
-          (this.dates["buttontext"] = "зарегистрироваться"));
+          (this.dates["title"] = "Вход"),
+          (this.dates["text"] = "Ещё не зарегистрированы?"),
+          (this.dates["buttontext"] = "Регистрация"));
     },
     // changeButtonText() {
     //   this.current === "auth-item"

@@ -1,16 +1,15 @@
 <template >
   <v-form>
     <div>
-      <form>
+      <form> 
         <v-text-field
           v-model.trim="name"
           :error-messages="nameErrors"
-          :counter="10"
-          label="Name"
+          label="ФИО"
           required
           @input="$v.name.$touch()"
           @blur="$v.name.$touch()"
-        ></v-text-field>
+        ></v-text-field> 
         <v-text-field
           v-model.trim="email"
           :error-messages="emailErrors"
@@ -23,16 +22,15 @@
           v-model.trim="password"
           :counter="9"
           :error-messages="passwordErrors"
-          label="Password"
+          label="Пароль"
           required
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
         <v-text-field
           v-model.trim="repeatPassword"
-          :counter="9"
           :error-messages="repeatpasswordErrors"
-          label="Repeat password"
+          label="Повторите пароль"
           required
           @input="$v.repeatPassword.$touch()"
           @blur="$v.repeatPassword.$touch()"
@@ -40,14 +38,15 @@
         <v-checkbox
           v-model="checkbox"
           :error-messages="checkboxErrors"
-          label="Do you agree?"
+          label="Вы согласны на обработку персональных данных?"
           required
           @change="$v.checkbox.$touch()"
           @blur="$v.checkbox.$touch()"
         ></v-checkbox>
-
-        <v-btn class="mr-4" @click="submit"> submit </v-btn>
-        <v-btn @click="clear"> clear </v-btn>
+        <v-row class="my-5 d-flex justify-left">
+          <v-btn class="mr-4" @click="submit">Войти</v-btn>
+          <v-btn @click="closeModal">Отмена</v-btn>
+        </v-row>
       </form>
       <!-- <v-divider></v-divider> -->
       <v-row class="my-5 d-flex justify-center">
@@ -146,6 +145,10 @@ export default {
       this.checkbox = false;
     },
 
+    closeModal(){
+      this.clear();
+      bus.$emit("closemodfromauth", false);
+    },
     // addNewField() {
     //   this.$set(this.formFields, this.additionalField, "");
     // },
@@ -156,31 +159,31 @@ export default {
   },
 
   computed: {
-    nameErrors() {
+     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength && errors.push("Must be valid name");
-      !this.$v.name.required && errors.push("Name is required");
+      !this.$v.name.maxLength && errors.push("Поле должно быть корректно");
+      !this.$v.name.required && errors.push("Поле должно быть заполнено");
       return errors;
     },
     checkboxErrors() {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;
-      !this.$v.checkbox.checked && errors.push("You must agree to continue!");
+      !this.$v.checkbox.checked && errors.push("Вы должны согласиться перед тем как продолжить");
       return errors;
     },
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength && errors.push("Must be more than 8 letters");
-      !this.$v.password.required && errors.push("Password is required");
+      !this.$v.password.minLength && errors.push("Пароль должен содержать минимум N символов");
+      !this.$v.password.required && errors.push("Поле должно быть заполнено");
       !this.$v.password.containsUppercase &&
-        errors.push("Must contain uppercase");
+        errors.push("Пароль должен содержать символы верхнего регистра");
       !this.$v.password.containsLowercase &&
-        errors.push("Must contain lowercase");
-      !this.$v.password.containsNumber && errors.push("Must contain number");
+        errors.push("Пароль должен содержать символы нижнего регистра");
+      !this.$v.password.containsNumber && errors.push("Пароль должен содержать цифры");
       !this.$v.password.containsSpecial &&
-        errors.push("Must contain one of simbol #?!@$%^&*-");
+        errors.push("Пароль должен содержать один из символов #?!@$%^&*-");
 
       return errors;
     },
@@ -191,16 +194,16 @@ export default {
       
 
       !this.$v.repeatPassword.sameAsPassword &&
-        errors.push("Passwords must be same");
-        !this.$v.password.required && errors.push("Password is required");
+        errors.push("Введенные пароли не совпадают");
+        !this.$v.password.required && errors.push("Поле должно быть заполнено");
       return errors;
     },
 
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid E-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
+      !this.$v.email.email && errors.push("Введен некорректный E-mail");
+      !this.$v.email.required && errors.push("Поле должно быть заполнено");
       return errors;
     },
   },

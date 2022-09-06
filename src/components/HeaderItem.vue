@@ -13,19 +13,19 @@
         <v-list dense nav>
           <v-list-item-group v-model="group" active-class="text--acent-4">
             <v-list-item to="/" link>
-              <v-list-item-title>Home</v-list-item-title>
+              <v-list-item-title>Главная</v-list-item-title>
             </v-list-item>
             <v-list-item to="/production" link>
-              <v-list-item-title>Production</v-list-item-title>
+              <v-list-item-title>О продукции</v-list-item-title>
             </v-list-item>
             <!-- <v-list-item to="/List" link>
             <v-list-item-title>Catalog</v-list-item-title>
           </v-list-item> -->
             <v-list-item to="/catalog" link>
-              <v-list-item-title>Catalog</v-list-item-title>
+              <v-list-item-title>Каталог</v-list-item-title>
             </v-list-item>
             <v-list-item to="/contact" link>
-              <v-list-item-title>Contacts</v-list-item-title>
+              <v-list-item-title>Контакты</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -56,26 +56,25 @@
       <!-- <v-spacer></v-spacer> -->
       <v-row>
         <v-col>
-          <v-row class="d-none d-lg-block" v-for="(item, i) in items" :key="i">
-            {{ item.phone }}
+          <v-row class="d-none d-lg-block" v-for="(value, id) in items" :key="id">
+            <p><a class="contact-ref" :href="getContact(value) ">{{ value.contactInfo }}</a></p>
           </v-row>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-btn to="/busket" link>
-          <v-icon>mdi-basket</v-icon>
-        </v-btn>
+        <!-- <v-spacer></v-spacer> -->
 
-        <v-spacer></v-spacer>
-
-        <v-btn @click="dialog = !dialog, changeLog">
-          <span>{{ changeButtonText ? "Logout" : "Login" }}</span>
-          <!-- <v-icon>mdi-login-variant </v-icon> -->
-          <v-icon>{{
-            changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
-          }}</v-icon>
-        </v-btn>
-
-        <v-spacer></v-spacer>
+        <v-col>
+          <v-btn @click="dialog = !dialog, changeLog">
+            <span>{{ changeButtonText ? "Выйти" : "Войти" }}</span>
+            <!-- <v-icon>mdi-login-variant </v-icon> -->
+            <v-icon>{{
+              changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
+            }}</v-icon>
+          </v-btn>
+          <v-btn to="/busket" link>
+            <v-icon>mdi-basket</v-icon>
+          </v-btn>
+        </v-col>
+        <!-- <v-spacer></v-spacer> -->
       </v-row>
       <!-- модальное окно -->
 
@@ -114,13 +113,9 @@ export default {
     group: null,
     nikename: "",
     items: [
-      {
-        phone: "8800-495-67-38",
-      },
-      {
-        phone: "8800-495-99-38",
-      },
-    ],
+        {contactType: "tel", contactInfo: "+7 (925) 201-88-47"},
+        {contactType: "mailto", contactInfo: "subbotinpu@gmail.com"},
+      ],
   }),
 
   computed: {
@@ -140,6 +135,9 @@ export default {
     getDialogStateButton(state) {
       console.log("statetttttt");
       this.dialog = state;
+    },
+    getContact(contact) {
+      return `${contact.contactType}:${contact.contactInfo}`;
     },
   },
 
@@ -171,6 +169,13 @@ export default {
 };
 </script>
 <style scoped>
+.contact-ref{
+  color: black;
+  text-decoration: none;
+}
+.contact-ref:hover{
+  border-bottom: 1px dashed black;
+}
 .drawer__content::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #5d5d5d;
   box-shadow: inset 0 0 6px #5d5d5d;
