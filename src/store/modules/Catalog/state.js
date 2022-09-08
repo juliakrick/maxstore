@@ -5,8 +5,8 @@ import getters from './getters'
 
 
 export default{  
-        catalog:[],
-        filterItems: [],
+        catalog: [],
+        filterItems: {},
         actions:actions,
         mutations:mutations,
         getters:getters,
