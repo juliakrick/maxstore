@@ -6,11 +6,7 @@ export default{
             state.catalog = catalog
         } 
     },
-     
-    SET_FILTER_CATALOG:(state, payload)=>{
-            state.filterItems = payload
-     
+    SET_CATALOG_FILTERS_TO_STATE:(state, payload)=>{
+        state.filterItems = payload
     },
-
-
 }
