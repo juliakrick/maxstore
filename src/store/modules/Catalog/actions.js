@@ -31,16 +31,24 @@ let urlFilters = 'https://0c1afc9d-add2-41fe-97b5-4533d72057ee.mock.pstmn.io/pro
 export default {
 
    getActions({commit, getters}, payload) {
+
+      let actualParams = {}
+      if(getters?.GET_LAST_ID){
+         actualParams.lastID = getters?.GET_LAST_ID
+      }   
+      for (var key in payload) {
+         if(payload[key]){
+            actualParams[key] = payload[key]
+         }   
+      }
+      let queryParams = {
+         params: actualParams
+     };
  
       return new Promise( (resolve, reject) => {
       let loaded = undefined;
      
-      axios.get( urlCatalog, {
-          params: {
-              lastID: getters?.GET_LAST_ID,
-              categoryTitle: payload
-          }
-      }).then(response => {
+      axios.get( urlCatalog, queryParams).then(response => {
          if(response.data.length){
             commit('SET_CATALOG_TO_STATE', response.data)
             loaded = true

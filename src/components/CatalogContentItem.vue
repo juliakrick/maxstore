@@ -19,7 +19,7 @@
         <v-col>
           <!-- v-for="(item, i) in getFiltersObjects('searchString')" :key="i" -->
           <v-text-field 
-            @change="changeType()"
+            @change="getListData"
             label="Строка поиска"
             hide-details="auto"
             v-model="сurrentSearchString"
@@ -30,7 +30,7 @@
         <v-col>
           <v-select
             
-            @change="changeType"
+            @change="getListData"
             @input="setCurrentCategory"
             :items="getFiltersObjects('categories')"
             label="Категория"
@@ -43,7 +43,7 @@
         <v-col>
           <v-select
             
-            @change="changeType"
+            @change="getListData"
             @input="setCurrentProductTypes"
             :items="getFiltersObjects('productTypes')"
             label="Тип продукции"
@@ -59,7 +59,7 @@
         <v-col>
           <v-switch v-for="(item, i) in getFiltersObjects('check')" :key="i"
             
-            @change="changeType"
+            @change="getListData"
             :label="item.title"
             :value="item.value"
             v-model="сurrentInStock"
@@ -72,7 +72,7 @@
         <v-col v-for="(item, i) in getFiltersObjects('params')" :key="i">
           <v-text-field 
           
-          @change="changeType"
+          @change="getListData"
           :label="item.title"
           hide-details="auto"
           v-model="сurrentParams[item.ID]"
@@ -124,12 +124,11 @@ export default {
     prodVuewItem: {},
     id: null,
 
-    newsType: "",
     currentCategory: undefined,
     currentProductTypes: undefined, 
     сurrentInStock: undefined,
     сurrentParams: {},
-    сurrentSearchString: undefined,
+    сurrentSearchString: "",
   }
   },
 
@@ -161,8 +160,17 @@ export default {
           }
         });
     },
-    changeType() {
-      this.getActions(this.newsType)
+    getListData() {
+
+      let queryParams = {
+        "searchString": this.сurrentSearchString, 
+        "category": this.currentCategory,
+        "productTypes": this.currentProductTypes.map(item => item.value).join('+'), 
+        "inStock": this.сurrentInStock,
+        "params": this.сurrentParams
+      }
+
+      this.getActions(queryParams)
     },
     getVuewItem(item, event) {
       event.preventDefault();
@@ -208,21 +216,8 @@ export default {
     }, 
   },
   mounted() {
-      this.getCatalogFilters()
-        .then((loadState) => {
-          if (loadState) {
-            this.$state.loaded();
-          } else {
-            this.$state.complete();
-          }
-        })
-        .catch((error) => {
-          if (error) {
-            this.$state.error();
-          } else {
-            this.$state.error();
-          }
-        });
+      this.getCatalogFilters();
+      this.getListData();
   },
 
 //   beforeDestroy: function() {
