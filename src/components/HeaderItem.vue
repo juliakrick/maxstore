@@ -13,19 +13,31 @@
         <v-list dense nav>
           <v-list-item-group v-model="group" active-class="text--acent-4">
             <v-list-item to="/" link>
-              <v-list-item-title>Главная</v-list-item-title>
+              <v-list-item-title>
+                <v-icon left>mdi-domain</v-icon>
+                Главная
+              </v-list-item-title>
             </v-list-item>
             <v-list-item to="/production" link>
-              <v-list-item-title>О продукции</v-list-item-title>
+              <v-list-item-title>
+                <v-icon left>mdi-dolly</v-icon>
+                О продукции
+              </v-list-item-title>
             </v-list-item>
             <!-- <v-list-item to="/List" link>
             <v-list-item-title>Catalog</v-list-item-title>
           </v-list-item> -->
             <v-list-item to="/catalog" link>
-              <v-list-item-title>Каталог</v-list-item-title>
+              <v-list-item-title>
+                <v-icon left>mdi-store-search-outline</v-icon>
+                Каталог 
+              </v-list-item-title>
             </v-list-item>
             <v-list-item to="/contact" link>
-              <v-list-item-title>Контакты</v-list-item-title>
+              <v-list-item-title>
+                <v-icon left>mdi-map-marker-outline</v-icon>
+                Контакты
+              </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>

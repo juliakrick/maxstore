@@ -5,17 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuetify from 'vuetify/lib'
 
-
-
-
-
-// import Vuelidate from 'vuelidate'
-
-// Vue.use(Axios)
-
 export const bus = new Vue()
-
-
 
 import ButtonItem from './components/UI/ButtonItem.vue'
 import ModalWindow from './components/UI/ModalWindow.vue'
