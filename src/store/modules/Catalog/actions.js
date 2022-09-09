@@ -29,21 +29,16 @@ function getRequestData(commit, requestUrl, requestParams, requestCondition, sto
 }
 
 export default {
-   getCatalogData({commit}, payload) {
+   getCatalogData({commit}, {params, needClean}) {
 
-      if(payload?.needClean){
+      if(needClean){
          commit('ERASE_CATALOG_STATE')
-      }
-      if(Object.keys(payload).length == 1){
-         payload = {}
-      }
-      else {
-         delete payload.needClean
       }
 
       let requestParams = {
-         params: payload
+         params: params
       };
+
       return getRequestData(commit, urlCatalog, requestParams, 'response.data.length', 'SET_CATALOG_TO_STATE');
    },
 
