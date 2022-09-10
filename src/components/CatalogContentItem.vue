@@ -36,19 +36,37 @@
           </v-text-field>
         </v-col>
 
-        <v-spaser></v-spaser>
+        <v-spacer></v-spacer>
 
         <v-col cols=2>
-          <v-btn
+          <v-hover 
+            v-slot="{ hover }" 
+            open-delay="100"
+            >
+            <v-btn
                 color="error"
-                
                 large
                 dark
+                v-bind:fab="!(hover || showListParameters)"
                 @click="showListParameters=!showListParameters"
               >
-              Параметры поиска
-              <v-icon rigth>mdi-store-search-outline</v-icon>
-          </v-btn>
+              <!-- Параметры поиска -->
+              <v-icon rigth>mdi-filter-settings-outline </v-icon>
+              <v-expand-transition>
+                <div
+                  v-if="hover || showListParameters"
+
+                  color="error"
+                  dark
+   
+                  style="height: 100%;"
+                >
+                <!-- class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal text-h2 white--text"   -->
+                  Параметры
+                </div>
+              </v-expand-transition>
+            </v-btn>
+          </v-hover>
         </v-col>
       </v-row>
 
@@ -125,17 +143,17 @@
       >
         <v-col 
           v-for="item in catalog" :key="item.id" 
-          class="mb-5"
-          align-self
-          cols=3       
+          class="mb-5"  
         >
           <v-card 
             hover
             @click="getVuewItem(item, $event)"
-            to="/catalog/:id"
-            :img="item.src"
           >
-            <v-card-title>
+            <v-img :src="testImg" to="/catalog/:id">
+              <!-- "item.src" -->
+            </v-img>
+            
+            <v-card-title to="/catalog/:id" >
               {{ item.title }}
             </v-card-title>
 
@@ -147,6 +165,47 @@
               <b>{{ item.parametrs.width }}</b>
               <b>{{ item.parametrs.width }}</b>
               <p>{{ item.price }}</p>
+            
+              <template>
+                <v-container>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field 
+                          single-line
+                          type="number"
+                          hide-spin-buttons
+                          reverse
+                          v-if="userCart[item.id]"
+                          v-model="userCart[item.id]"
+                          >
+                          <!-- $set(userCart, item.id, userCart[item.id]) -->
+                          <!-- v-model="userCart[item.id]" -->
+                          <!-- {{userCart[item.id] ? userCart[item.id] : 0}} -->
+                        </v-text-field> 
+                    </v-col>
+
+                    <v-col>
+                      <v-btn-toggle                       
+                        borderless
+                      >
+                        <v-btn                
+                          color="white"
+                          @click="changeCart(item.id, false)"
+                          dark
+                          >
+                          <v-icon >mdi-minus-circle-outline</v-icon>
+                        </v-btn>
+                        <v-btn 
+                          color="white"
+                          @click="changeCart(item.id, true)"
+                          dark>
+                          <v-icon >mdi-plus-circle-outline</v-icon>
+                        </v-btn>
+                      </v-btn-toggle>
+                    </v-col>
+                  </v-row>
+                </v-container>  
+              </template>
             </v-card-text>
           </v-card>
         </v-col>
@@ -175,16 +234,20 @@ export default {
 
   data: () => {
     return {
-    prodVuewItem: {},
-    id: null,
-    showListParameters: false,
-    isEmptyProductTypes: false,
-    currentCategory: undefined,
-    currentProductTypes: undefined, 
-    сurrentInStock: undefined,
-    сurrentParams: {},
-    сurrentSearchString: "",
-    queryParameters: {},
+      prodVuewItem: {},
+      id: null,
+      
+      userCart: {},
+      showListParameters: false,
+      isEmptyProductTypes: false,
+
+      testImg: require("../assets/equirement/stal.jpg"),
+      currentCategory: undefined,
+      currentProductTypes: undefined, 
+      сurrentInStock: undefined,
+      сurrentParams: {},
+      сurrentSearchString: "",
+      queryParameters: {},
   }
   },
 
@@ -197,7 +260,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("Catalog", ["getCatalogData", "getCatalogFilters"]),
+    ...mapActions("Catalog", ["getCatalogData", "getCatalogFilters", "setCartData"]),
 
     searchMore($state) {
       if (this.checkLastId()){
@@ -310,6 +373,18 @@ export default {
     },
     setParams(сurrentParams) {
       this.сurrentParams = сurrentParams; 
+    },
+    changeCart(id, operation){
+      let itemsCount = this.userCart[id]
+      let propertyValue = 0
+      if(itemsCount){
+        propertyValue = operation ? itemsCount + 1 : itemsCount - 1
+      } 
+      else {
+        propertyValue = operation ? 1 : 0
+      }
+      this.$set(this.userCart, id, propertyValue)
+      this.setCartData(this.userCart);
     }, 
   },
   mounted() {

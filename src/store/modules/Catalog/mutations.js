@@ -11,5 +11,9 @@ export default{
     },
     ERASE_CATALOG_STATE:(state)=>{
         state.catalog = []
-    }
+    },
+    SET_CART_DATA_TO_STORE:(state, payload)=>{
+        state.cartData = payload
+    },
+
 }

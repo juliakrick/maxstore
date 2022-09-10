@@ -12,36 +12,17 @@
       >
         <v-list dense nav>
           <v-list-item-group v-model="group" active-class="text--acent-4">
-            <v-list-item to="/" link>
+            <v-list-item v-for="(item, i) in getMenu()" :key="i"     
+              :to="item.url" link>
               <v-list-item-title>
-                <v-icon left>mdi-domain</v-icon>
-                Главная
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/production" link>
-              <v-list-item-title>
-                <v-icon left>mdi-dolly</v-icon>
-                О продукции
-              </v-list-item-title>
-            </v-list-item>
-            <!-- <v-list-item to="/List" link>
-            <v-list-item-title>Catalog</v-list-item-title>
-          </v-list-item> -->
-            <v-list-item to="/catalog" link>
-              <v-list-item-title>
-                <v-icon left>mdi-store-search-outline</v-icon>
-                Каталог 
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/contact" link>
-              <v-list-item-title>
-                <v-icon left>mdi-map-marker-outline</v-icon>
-                Контакты
+                <v-icon left>{{item.icon}}</v-icon>
+                {{item.title}}
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
+
       <v-col class="d-flex justify-right align-center">
         <v-app-bar-nav-icon
           color="black"
@@ -58,35 +39,47 @@
         ></v-img>
         <!-- </v-app-bar-nav-icon> -->
       </v-col>
-      <!-- <v-spacer></v-spacer> -->
+
       <v-col v-show="nikename">Добро пожаловать! {{ nikename }}</v-col>
+
       <!-- <v-toolbar-items class="d-none d-md-block">
         <v-btn to="/" link>Home</v-btn>
         <v-btn to="/catalog" link>Catalog</v-btn>
         <v-btn to="/contact" link>Contacts</v-btn>
       </v-toolbar-items> -->
-      <!-- <v-spacer></v-spacer> -->
-      <v-row>
+
+      <!-- <v-row class="d-none d-lg-block" v-for="(value, id) in items" :key="id">
         <v-col>
+          <p><a class="contact-ref" :href="getContact(value) ">{{ value.contactInfo }}</a></p>
+        </v-col>
+      </v-row> -->
+
+      <v-row> 
+        <v-col cols=3>
           <v-row class="d-none d-lg-block" v-for="(value, id) in items" :key="id">
             <p><a class="contact-ref" :href="getContact(value) ">{{ value.contactInfo }}</a></p>
           </v-row>
         </v-col>
-        <!-- <v-spacer></v-spacer> -->
 
-        <v-col>
-          <v-btn @click="dialog = !dialog, changeLog">
-            <span>{{ changeButtonText ? "Выйти" : "Войти" }}</span>
-            <!-- <v-icon>mdi-login-variant </v-icon> -->
-            <v-icon>{{
-              changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
-            }}</v-icon>
-          </v-btn>
-          <v-btn to="/busket" link>
-            <v-icon>mdi-basket</v-icon>
-          </v-btn>
+        <v-col class="align-self-center"> 
+          <v-row class="justify-space-around"> 
+            <v-col>
+              <v-btn to="/busket" link>
+                <v-icon>mdi-cart-variant</v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col>
+              <v-btn @click="dialog = !dialog, changeLog" >
+                <span>{{ changeButtonText ? "Выйти" : "Войти" }}</span>
+                <!-- <v-icon>mdi-login-variant </v-icon> -->
+                <v-icon>{{
+                  changeButtonText ? "mdi-logout-variant" : "mdi-login-variant"
+                }}</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-col>
-        <!-- <v-spacer></v-spacer> -->
       </v-row>
       <!-- модальное окно -->
 
@@ -135,6 +128,12 @@ export default {
   },
 
   methods: {
+    getMenu(){
+      return [{title: "Главная", icon: "mdi-domain", url: "/"},
+              {title: "О нас", icon: "mdi-dolly", url: "/production"},
+              {title: "Каталог", icon: "mdi-store-settings-outline ", url: "/catalog"},
+              {title: "Контакты", icon: "mdi-map-marker-outline", url: "/contact"}]
+    },
     changeLog(){
       if(this.GET_STATUS() == 'success'){
          console.log('success')

@@ -19,6 +19,14 @@
           @blur="$v.email.$touch()"
         ></v-text-field>
         <v-text-field
+          v-model.trim="tel"
+          :error-messages="telErrors"
+          label="Телефон"
+          required
+          @input="$v.tel.$touch()"
+          @blur="$v.tel.$touch()"
+        ></v-text-field>
+        <v-text-field
           v-model.trim="password"
           :counter="9"
           :error-messages="passwordErrors"
@@ -75,6 +83,7 @@ export default {
   data() {
     return {
       name: "",
+      tel: "",
       email: "",
       password: "",
       repeatPassword: "",
@@ -84,6 +93,7 @@ export default {
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(10) },
+    tel: { required, maxLength: maxLength(15) },
     email: { required, email },
     password: {
       required,
@@ -129,9 +139,6 @@ export default {
         }
 
         this.RegisterUser(data)
-
-
-
       bus.$emit("closemodfromauth", false);
       // this.$router.push("/production");
     },
@@ -140,6 +147,7 @@ export default {
       this.$v.$reset();
       this.name = "";
       this.email = "";
+      this.tel = "";
       this.password = "";
       this.repeatPassword = "";
       this.checkbox = false;
@@ -164,6 +172,13 @@ export default {
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength && errors.push("Поле должно быть корректно");
       !this.$v.name.required && errors.push("Поле должно быть заполнено");
+      return errors;
+    },
+    telErrors() {
+      const errors = [];
+      if (!this.$v.tel.$dirty) return errors;
+      !this.$v.tel.maxLength && errors.push("Поле должно быть корректно");
+      !this.$v.tel.required && errors.push("Поле должно быть заполнено");
       return errors;
     },
     checkboxErrors() {
