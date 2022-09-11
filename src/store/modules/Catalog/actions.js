@@ -45,7 +45,9 @@ export default {
    getCatalogFilters({commit}) {
       return getRequestData(commit, urlFilters, undefined, 'Object.keys(response.data).length', 'SET_CATALOG_FILTERS_TO_STATE');
    },
-
+   setCartData({commit}, data){
+      commit("SET_CART_DATA_TO_STORE", data)
+   },
 
 };
 

@@ -5,7 +5,7 @@
         class="mb-3"
         v-model.trim="email"
         :error-messages="emailErrors"
-        label="E-mail"
+        label="E-mail или телефон"
         required
         @input="$v.email.$touch()"
         @blur="$v.email.$touch()"
