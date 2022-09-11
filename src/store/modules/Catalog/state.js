@@ -7,7 +7,8 @@ import getters from './getters'
 export default{  
         catalog: [],
         filterItems: {},
-        cartData: [],
+        cartData: {},
+        
         actions:actions,
         mutations:mutations,
         getters:getters,

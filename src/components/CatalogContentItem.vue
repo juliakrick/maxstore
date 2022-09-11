@@ -1,231 +1,224 @@
 
 <template>
-  <div>
-    <v-container class="catalog">
-      <v-row class="justify-content-center">
-        <v-col>
-          <h1 class="warning--text catalog__title mt-10">
-          Стеллажи и металлоконструкции
-          </h1>
-        </v-col>
-      </v-row>
+  <v-container class="catalog">
+    <v-row class="justify-content-center">
+      <v-col>
+        <h1 class="warning--text catalog__title mt-10">
+        Стеллажи и металлоконструкции
+        </h1>
+      </v-col>
+    </v-row>
 
-      <v-row class="justify-content-center">
-        <v-col>
-          <h4 class="mb-4 catalog__subtitle anchor-text">
-            Изготавливаем металлические стеллажи с 1998 года
-          </h4>
-        </v-col>
-      </v-row>
+    <v-row class="justify-content-center">
+      <v-col>
+        <h4 class="mb-4 catalog__subtitle anchor-text">
+          Изготавливаем металлические стеллажи с 1998 года
+        </h4>
+      </v-col>
+    </v-row>
 
-      <v-row>
-        <v-col>
-          <v-spacer></v-spacer>
-          <v-divider inset></v-divider>
-        </v-col> 
-      </v-row>
-
-      <v-row>
-        
+    <v-row>
+      <v-col>
         <v-spacer></v-spacer>
+        <v-divider inset></v-divider>
+      </v-col> 
+    </v-row>
 
-        <v-col cols=4>
-          <v-text-field
-            @change="getListData"
-            hide-details="auto"
-            v-model="сurrentSearchString"
-            outline
-            clearable
-            type="text"
+    <v-row>
+      
+      <v-col cols=9>
+        <v-text-field
+          @change="getListData"
+          hide-details="auto"
+          v-model="сurrentSearchString"
+          outline
+          clearable
+          type="text"
+          >
+          <template v-slot:label>
+            <v-icon left>mdi-magnify</v-icon> Введите наименование 
+          </template>
+        </v-text-field>
+      </v-col>
+
+      <v-spacer></v-spacer>
+
+      <v-col cols=2>
+        <v-hover 
+          v-slot="{ hover }" 
+          open-delay="100"
+          >
+          <v-btn
+              color="error"
+              large
+              dark
+              icon
+              @click="showListParameters=!showListParameters"
             >
-            <template v-slot:label>
-              <v-icon left>mdi-magnify</v-icon> Введите наименование 
-            </template>
-          </v-text-field>
-        </v-col>
+            <v-icon rigth>mdi-filter-settings-outline</v-icon>
+            {{(hover || showListParameters) ? 'Параметры' : ''}}
+            <v-fade-transition>
+              <div
+                v-if="hover || showListParameters"
 
-        <v-spacer></v-spacer>
-
-        <v-col cols=2>
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="100"
-            >
-            <v-btn
                 color="error"
-                large
                 dark
-                icon
-                @click="showListParameters=!showListParameters"
+  
+                style="height: 100%;"
               >
-              <v-icon rigth>mdi-filter-settings-outline</v-icon>
-              {{(hover || showListParameters) ? 'Параметры' : ''}}
-              <v-fade-transition>
-                <div
-                  v-if="hover || showListParameters"
+              </div>
+            </v-fade-transition>
+          </v-btn>
+        </v-hover>
+      </v-col>
+    </v-row>
 
-                  color="error"
-                  dark
-   
-                  style="height: 100%;"
-                >
-                </div>
-              </v-fade-transition>
-            </v-btn>
-          </v-hover>
-        </v-col>
-      </v-row>
-
-      <v-expand-transition>
-        <v-row v-if="showListParameters">
-          <v-col>
-            <v-row>
-              <v-col>
-                <v-select 
-                  
-                  @change="getListData"
-                  @input="setCurrentCategory"
-                  :items="getFiltersObjects('categories')"
-                  label="Категория"
-                  outlined
-                  no-data-text
-                  v-model="currentCategory"
-                ></v-select>
-              </v-col>
-
-              <v-col>
-                <v-select 
-                  @change="getListData"
-                  @input="setCurrentProductTypes"
-                  :items="getFiltersObjects('productTypes')"
-                  label="Тип продукции"
-                  outlined 
-                  no-data-text
-                  return-object
-                  multiple
-                  :disabled="isEmptyProductTypes"
-                  v-model="currentProductTypes"
-                ></v-select>
-              </v-col>
-
-              <v-col>
-                <v-switch v-for="(item, i) in getFiltersObjects('check')" :key="i"
-                  @change="getListData"
-                  :label="item.title"
-                  :value="item.value"
-                  v-model="сurrentInStock"
-                  outlined
-                ></v-switch>
-              </v-col>
-            </v-row> 
-
-            <v-row>
-              <v-col v-for="(item, i) in getFiltersObjects('params')" :key="i">
-                <v-text-field 
+    <v-expand-transition>
+      <v-row v-if="showListParameters">
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-select 
                 
                 @change="getListData"
-                :label="item.title"
-                hide-details="auto"
-                v-model="сurrentParams[item.ID]"
+                @input="setCurrentCategory"
+                :items="getFiltersObjects('categories')"
+                label="Категория"
                 outlined
-                ></v-text-field>
-                <v-spacer></v-spacer>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-expand-transition>
+                no-data-text
+                v-model="currentCategory"
+              ></v-select>
+            </v-col>
 
-      <v-row>
-        <v-col>
-          <v-spacer></v-spacer>
-          <v-divider inset></v-divider>
-        </v-col> 
-      </v-row>
+            <v-col>
+              <v-select 
+                @change="getListData"
+                @input="setCurrentProductTypes"
+                :items="getFiltersObjects('productTypes')"
+                label="Тип продукции"
+                outlined 
+                no-data-text
+                return-object
+                multiple
+                :disabled="isEmptyProductTypes"
+                v-model="currentProductTypes"
+              ></v-select>
+            </v-col>
 
-      <v-row
-        id="infinite-list"
-        class="justify-start ma-5"
-      >
-        <v-col 
-          v-for="item in catalog" :key="item.id" 
-          class="mb-5"  
-        >
-          <v-card 
-            hover
-            @click="getVuewItem(item, $event)"
-          >
-            <v-img :src="testImg" to="/catalog/:id">
-              <!-- "item.src" -->
-            </v-img>
-            
-            <v-card-title to="/catalog/:id" >
-              {{ item.title }}
-            </v-card-title>
+            <v-col>
+              <v-switch v-for="(item, i) in getFiltersObjects('check')" :key="i"
+                @change="getListData"
+                :label="item.title"
+                
+                v-model="сurrentInStock"
+                outlined
+              ></v-switch>
+              <!-- :value="item.value" -->
+            </v-col>
+          </v-row> 
 
-            <v-card-text>
-              <p>{{ item.description }}</p>
-              <b>{{ item.parametrs.width }}</b>
-              <b>{{ item.parametrs.width }}</b>
-              <b>{{ item.parametrs.width }}</b>
-              <b>{{ item.parametrs.width }}</b>
-              <b>{{ item.parametrs.width }}</b>
-              <p>{{ item.price }}</p>
-            
-              <template>
-                <v-container>
-                  <v-row align="center">
-                    <v-col>
-                      <v-text-field 
-                          class="card-count"
-                          center
-                          type="number"
-                          hide-spin-buttons
-                          reverse
-                          
-                          
-                          v-if="userCart[item.id]"
-                          v-model="userCart[item.id]"
-                          >
-                        </v-text-field> 
-                    </v-col>
-
-                    <v-col>
-                      <v-btn-toggle                       
-                        borderless
-                      >
-                        <v-btn                
-                          color="white"
-                          @click="changeCart(item.id, false)"
-                          dark
-                          >
-                          <v-icon >mdi-minus-circle-outline</v-icon>
-                        </v-btn>
-                        <v-btn 
-                          color="white"
-                          @click="changeCart(item.id, true)"
-                          dark>
-                          <v-icon >mdi-plus-circle-outline</v-icon>
-                        </v-btn>
-                      </v-btn-toggle>
-                    </v-col>
-                  </v-row>
-                </v-container>  
-              </template>
-            </v-card-text>
-          </v-card>
+          <v-row>
+            <v-col v-for="(item, i) in getFiltersObjects('params')" :key="i">
+              <v-text-field 
+              
+              @change="getListData"
+              :label="item.title"
+              hide-details="auto"
+              v-model="сurrentParams[item.ID]"
+              outlined
+              ></v-text-field>
+              <v-spacer></v-spacer>
+            </v-col>
+          </v-row>
         </v-col>
-
-        <infinite-loading @infinite="searchMore">
-          <div slot="spinner">Загрузка...</div> 
-          <!-- todo: Добавить иконку загрузки -->
-          <div slot="no-more"></div>
-          <div slot="no-results"></div>
-          <!-- todo: Добавить плашку для отсутствия результатов -->
-        </infinite-loading>
       </v-row>
-    </v-container>
-  </div>
+    </v-expand-transition>
+
+
+    <v-row>
+      <v-col>
+        <v-spacer></v-spacer>
+        <v-divider inset></v-divider>
+      </v-col> 
+    </v-row>
+
+    <v-row
+      id="infinite-list"
+      class="justify-start ma-5"
+    >
+      <v-col 
+        v-for="item in catalog" :key="item.id" 
+        class="mb-5"  
+      >
+        <v-card 
+          hover
+          @click="getVuewItem(item, $event)" 
+        >
+          <v-img :src="testImg">
+            <!-- "item.src" -->
+          </v-img>
+          
+          <v-card-title>
+            <router-link :to="{name: 'CatalogItemScreen', params: { 'id': item.id }}" > {{ item.title }}</router-link>
+          </v-card-title>
+
+          <v-card-text>
+            <p>{{ item.description }}</p>
+            <b>{{ item.parametrs.width }}</b>
+            <b>{{ item.parametrs.width }}</b>
+            <b>{{ item.parametrs.width }}</b>
+            <b>{{ item.parametrs.width }}</b>
+            <b>{{ item.parametrs.width }}</b>
+            <!-- <p>{{ item.price }}</p> -->
+          
+            <template>
+              <v-container>
+                <v-row >
+                  <!-- <v-col> -->
+                    <v-text-field 
+                        class="card-count"
+                        flat solo
+                        type="number"
+                        hide-spin-buttons
+                        
+                        v-if="userCart[item.id]"
+                        v-model.number="userCart[item.id]"
+                        >
+                      </v-text-field> 
+                    <v-btn-toggle                       
+                      borderless
+                    >
+                      <v-btn                
+                        color="white"
+                        @click="changeCart(item.id, false)"
+                        icon
+                        >
+                        <v-icon center large>mdi-minus-circle-outline</v-icon>
+                      </v-btn>
+                      <v-btn 
+                        color="white"
+                        @click="changeCart(item.id, true)"
+                        icon
+                        >
+                        <v-icon center large>mdi-plus-circle-outline</v-icon>
+                      </v-btn>
+                    </v-btn-toggle>
+                </v-row>
+              </v-container>  
+            </template>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <infinite-loading @infinite="searchMore">
+        <div slot="spinner">Загрузка...</div> 
+        <!-- todo: Добавить иконку загрузки -->
+        <div slot="no-more"></div>
+        <div slot="no-results"></div>
+        <!-- todo: Добавить плашку для отсутствия результатов -->
+      </infinite-loading>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -241,13 +234,14 @@ export default {
   data: () => {
     return {
       prodVuewItem: {},
-      id: null,
+      id: 1231243,
       
       userCart: {},
       showListParameters: false,
       isEmptyProductTypes: false,
 
       testImg: require("../assets/equirement/stal.jpg"),
+
       currentCategory: undefined,
       currentProductTypes: undefined, 
       сurrentInStock: undefined,
@@ -310,11 +304,9 @@ export default {
         if(queryParams[key]){
           actualParams[key] = queryParams[key]
         }  
-        if(this.queryParameters[key]){
-          if(key != "lastID" && queryParams[key] != this.queryParameters[key]){
-            needClean = true
-          }   
-        }
+        if(key != "lastID" && queryParams[key] != this.queryParameters[key]){
+          needClean = true
+        }   
       }
 
       this.queryParameters = actualParams
@@ -389,8 +381,9 @@ export default {
       else {
         propertyValue = operation ? 1 : 0
       }
-      this.$set(this.userCart, id, propertyValue)
-      this.setCartData(this.userCart);
+      let castedValue = parseInt(propertyValue)
+      this.$set(this.userCart, id, castedValue)
+      this.setCartData({"catalogID": id, "value": castedValue});
     }, 
   },
   mounted() {
@@ -409,9 +402,12 @@ export default {
 .catalog {
   padding-top: 65px;
 }
-.card-count {
+/* .card-count {
   text-align: center !important;
-
+} */
+.card-count >>> input {
+  text-align: center;
+  font-weight: bold;
 }
 .catalog__title {
   font-family: "Rubik", sans-serif;

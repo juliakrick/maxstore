@@ -13,7 +13,7 @@ export default{
         state.catalog = []
     },
     SET_CART_DATA_TO_STORE:(state, payload)=>{
-        state.cartData = payload
+        state.cartData[payload.catalogID] = payload.value
     },
 
 }
