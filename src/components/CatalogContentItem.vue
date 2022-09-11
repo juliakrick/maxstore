@@ -3,14 +3,19 @@
   <div>
     <v-container class="catalog">
       <v-row class="justify-content-center">
-        <h1 class="warning--text catalog__title mt-10">
+        <v-col>
+          <h1 class="warning--text catalog__title mt-10">
           Стеллажи и металлоконструкции
-        </h1></v-row
-      >
+          </h1>
+        </v-col>
+      </v-row>
+
       <v-row class="justify-content-center">
-        <h4 class="mb-4 catalog__subtitle anchor-text">
-          Изготавливаем металлические стеллажи с 1998 года
-        </h4>
+        <v-col>
+          <h4 class="mb-4 catalog__subtitle anchor-text">
+            Изготавливаем металлические стеллажи с 1998 года
+          </h4>
+        </v-col>
       </v-row>
 
       <v-row>
@@ -21,7 +26,10 @@
       </v-row>
 
       <v-row>
-        <v-col>
+        
+        <v-spacer></v-spacer>
+
+        <v-col cols=4>
           <v-text-field
             @change="getListData"
             hide-details="auto"
@@ -47,12 +55,12 @@
                 color="error"
                 large
                 dark
-                v-bind:fab="!(hover || showListParameters)"
+                icon
                 @click="showListParameters=!showListParameters"
               >
-              <!-- Параметры поиска -->
-              <v-icon rigth>mdi-filter-settings-outline </v-icon>
-              <v-expand-transition>
+              <v-icon rigth>mdi-filter-settings-outline</v-icon>
+              {{(hover || showListParameters) ? 'Параметры' : ''}}
+              <v-fade-transition>
                 <div
                   v-if="hover || showListParameters"
 
@@ -61,10 +69,8 @@
    
                   style="height: 100%;"
                 >
-                <!-- class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal text-h2 white--text"   -->
-                  Параметры
                 </div>
-              </v-expand-transition>
+              </v-fade-transition>
             </v-btn>
           </v-hover>
         </v-col>
@@ -171,16 +177,16 @@
                   <v-row align="center">
                     <v-col>
                       <v-text-field 
-                          single-line
+                          class="card-count"
+                          center
                           type="number"
                           hide-spin-buttons
                           reverse
+                          
+                          
                           v-if="userCart[item.id]"
                           v-model="userCart[item.id]"
                           >
-                          <!-- $set(userCart, item.id, userCart[item.id]) -->
-                          <!-- v-model="userCart[item.id]" -->
-                          <!-- {{userCart[item.id] ? userCart[item.id] : 0}} -->
                         </v-text-field> 
                     </v-col>
 
@@ -402,6 +408,10 @@ export default {
 <style scoped>
 .catalog {
   padding-top: 65px;
+}
+.card-count {
+  text-align: center !important;
+
 }
 .catalog__title {
   font-family: "Rubik", sans-serif;
