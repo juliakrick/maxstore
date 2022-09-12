@@ -15,5 +15,7 @@ export default{
     SET_CART_DATA_TO_STORE:(state, payload)=>{
         state.cartData[payload.catalogID] = payload.value
     },
-
+    SET_CATALOG_DETAIL_ITEM_INFO:(state, payload)=>{
+        state.currentCatalogItem = payload
+    },
 }

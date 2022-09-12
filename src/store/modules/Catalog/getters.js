@@ -9,14 +9,21 @@ export default{
     GET_CATALOG_FILTERS_TO_STATE(state){
       return state.filterItems
     },
+    GET_CATALOG_DETAIL_ITEM_INFO(state){
+      return state.currentCatalogItem
+    },
+    GET_ITEM_COUNT: (state) => (id) => {
+      return state.cartData[id]
+    },
     GET_PRODUCTS_ID: (state) => (id) => { 
       return state.catalog.find(todo => todo.id === id)
     },
     decrementProductInventory (state, { id }) {
       const product = state.all.find(product => product.id === id)
       product.inventory--
-    }
+    },
 
+    // getCatalogItemDetails
 }
     // GET_PRODUCTS_ID(state){
     //     getTodoById: (state) => (id) => {

@@ -7,6 +7,7 @@ import axios from "axios";
 
 let urlCatalog = 'https://03f0ce2f-1a05-4a2d-a628-8fdaef600ef1.mock.pstmn.io/products'
 let urlFilters = 'https://0c1afc9d-add2-41fe-97b5-4533d72057ee.mock.pstmn.io/productsFilters'
+let urlCatalogItem = 'https://0c1afc9d-add2-41fe-97b5-4533d72057ee.mock.pstmn.io/products/:id/details'
 
 function getRequestData(commit, requestUrl, requestParams, requestCondition, storeAction) {
  
@@ -29,6 +30,7 @@ function getRequestData(commit, requestUrl, requestParams, requestCondition, sto
 }
 
 export default {
+
    getCatalogData({commit}, {params, needClean}) {
 
       if(needClean){
@@ -45,6 +47,12 @@ export default {
    getCatalogFilters({commit}) {
       return getRequestData(commit, urlFilters, undefined, 'Object.keys(response.data).length', 'SET_CATALOG_FILTERS_TO_STATE');
    },
+
+   getCatalogItemDetails({commit}, id) {
+      
+      return getRequestData(commit, urlCatalogItem.replace(':id', id), undefined, 'Object.keys(response.data).length', 'SET_CATALOG_DETAIL_ITEM_INFO');
+   },
+   
    setCartData({commit}, data){
       commit("SET_CART_DATA_TO_STORE", data)
    },

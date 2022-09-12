@@ -124,7 +124,7 @@
               @change="getListData"
               :label="item.title"
               hide-details="auto"
-              v-model="сurrentParams[item.ID]"
+              v-model="сurrentParams[item.id]"
               outlined
               ></v-text-field>
               <v-spacer></v-spacer>
@@ -272,12 +272,9 @@ export default {
               $state.complete();
             }
           })
-          .catch((error) => {
-            if (error) {
-              $state.error();
-            } else {
-              $state.error();
-            }
+          .catch(() => {
+            // error
+            $state.error();
           });
       }
       else {
@@ -333,17 +330,17 @@ export default {
         return this.filters?.searchString
       }
       else if (filterType == 'categories') {
-        return this.filters?.categories?.map(item => ({'text': item.title, 'value': item.ID}))
+        return this.filters?.categories?.map(item => ({'text': item.title, 'value': item.id}))
       }
       else if (filterType == 'params') {
         return this.filters?.params ? this.filters?.params : []
       }
       else if (filterType == 'productTypes') {
-        let typeArray = this.filters?.productTypes?.filter(f => f?.ID == this.currentCategory)
+        let typeArray = this.filters?.productTypes?.filter(f => f?.id == this.currentCategory)
         let result = []
         if (typeof typeArray == 'object') {
           if (typeArray.length) {
-            result = typeArray[0]?.items?.map(item => ({'text': item.title, 'value': item.ID}))
+            result = typeArray[0]?.items?.map(item => ({'text': item.title, 'value': item.id}))
           }
         }
         if(result && result.length){
@@ -402,9 +399,6 @@ export default {
 .catalog {
   padding-top: 65px;
 }
-/* .card-count {
-  text-align: center !important;
-} */
 .card-count >>> input {
   text-align: center;
   font-weight: bold;

@@ -24,8 +24,8 @@ const routes = [
   {
     path: '/catalog/:id',
     props: true,
-    name: 'ProductOfCatalogItem',
-    component: () => import(/* webpackChunkName: "ProductOfCatalogItem" */ '../views/ProductOfCatalogItem.vue')  
+    name: 'CatalogItemScreen',
+    component: () => import(/* webpackChunkName: "CatalogItemScreen" */ '../views/CatalogItemScreen.vue')  
   },
     {
       path: '/contact',
